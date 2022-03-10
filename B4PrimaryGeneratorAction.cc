@@ -87,7 +87,7 @@ B4PrimaryGeneratorAction::B4PrimaryGeneratorAction()
   G4int nofParticles = 1;
   fParticleGun = new G4ParticleGun(nofParticles);
 
-  gRandom->SetSeed(0);
+  gRandom->SetSeed(0); // This is not good 
 
 const Int_t npar = 1;
 
@@ -140,7 +140,7 @@ double sint=1.-cost*cost;
    double phi=2.*TMath::Pi()*gRandom->Rndm();
 
 
-    double xDir=sint*std::cos(phi);
+    double xDir=sint*std::cos(phi); // Why std::?
     double yDir=sint*std::sin(phi);
     double zDir=cost;
 

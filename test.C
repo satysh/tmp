@@ -25,22 +25,31 @@ void test()
   
   const Int_t npar = 1;
   
-  TF1 *f2 = new TF2("f2",muI,0,2000,0,1, npar);
+  TF2 *f2 = new TF2("f2",muI,0,2000,0,1, npar);
   Double_t f2params[npar] = {0.8915};
   f2->SetParameters(f2params);
   f2->SetNpx(5000);
-
+  //f2->Draw();
+  
   Double_t cost, p;
+  Double_t theta;
   Double_t phi;
+  Float_t rnd;
   TTree *tree = new TTree("tree", "tree");
   tree->Branch("p", &p);
   tree->Branch("cost", &cost);
+  tree->Branch("theta", &theta);
   tree->Branch("phi", &phi);
+  tree->Branch("rnd", &rnd);
   for (Int_t i=0; i<nEvents; i++) {
     f2->GetRandom2(p, cost );
-    phi = 2.*TMath::Pi()*gRandom->Rndm();
+    theta = TMath::RadToDeg()*acos(cost);
+    rnd = gRandom->Rndm();
+    phi = TMath::RadToDeg()*2.*TMath::Pi()*rnd;
     tree->Fill();
   }
+  tree->StartViewer();
+
 /*
   TCanvas *canv = new TCanvas("canv", "canv");
   canv->Divide(1, 2);
@@ -49,5 +58,4 @@ void test()
   canv->cd(2);
   tree->Draw("cost");
 */  
-  tree->StartViewer();
 }
